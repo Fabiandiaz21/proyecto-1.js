@@ -4,13 +4,13 @@ import categorias from "../models/categorias.js";
 const httpcategorias = {
 
     //Crear
-    postcategorias:async(res,req)=>{
+    postcategorias:async(req,res)=>{
         try{
             const {
-                description,estado
+                descripcion,estado
             } = req.body
             const categoria = new categorias({
-                description,estado
+                descripcion,estado
             });
             await categoria.save();
         }catch(error){
@@ -20,7 +20,7 @@ const httpcategorias = {
     },
 
     //Modificar
-    putcategorias:async(res,req)=>{
+    putcategorias:async(req,res)=>{
         try{
             const {id} = req.params;
 
@@ -29,8 +29,8 @@ const httpcategorias = {
                 return res.status(400).json({error:"ID no es valido"});
             }
 
-            const {description,estado} = req.body
-            const categoria = await categorias.finByAndUdate(id,{description,estado},{new:true});
+            const {descripcion,estado} = req.body
+            const categoria = await categorias.finByAndUdate(id,{descripcion,estado},{new:true});
 
             if(!categoria){
                 return res.status(404).json({error:"Categoria no encontrada"})

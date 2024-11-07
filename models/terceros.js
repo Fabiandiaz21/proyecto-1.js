@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const terceroSchema = new mongoose.Schema({
     nombre:{type:String, required:true},
     identificacion:{type:String, required:true},
-    tipo:{type:String, enum: [ 'cliente', 'proveedor']},// clente // proveedor
+    tipo:{type:String, require: true},// 1: cliente , 2:proveedor
     email:{type:String, required:true, unique:true},
     direccion:{type:String, required:true},
     telefono:{type:String, required:true},
@@ -11,4 +11,4 @@ const terceroSchema = new mongoose.Schema({
 })
 
 
-export {terceroSchema}
+export default mongoose.model ("terceros", terceroSchema)
