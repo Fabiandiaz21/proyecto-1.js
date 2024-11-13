@@ -13,6 +13,7 @@ const httpcategorias = {
                 descripcion,estado
             });
             await categoria.save();
+            res.json({ categoria});
         }catch(error){
             res.status(404).json({error:"Falla en la operacion"})
             console.log(error);
@@ -23,33 +24,23 @@ const httpcategorias = {
     putcategorias:async(req,res)=>{
         try{
             const {id} = req.params;
-
-             //validar que el id sea un objeto valido
-             if (!mongoose.Types.ObjectId.isValid(id)){
-                return res.status(400).json({error:"ID no es valido"});
-            }
-
             const {descripcion,estado} = req.body
-            const categoria = await categorias.finByAndUdate(id,{descripcion,estado},{new:true});
-
-            if(!categoria){
-                return res.status(404).json({error:"Categoria no encontrada"})
-
-            }
-            res.json(categoria);
-
-        }catch{
+            const categoria = await categorias.findByIdAndUpdate(id,{descripcion,estado},{new:true});
+            res.json({categoria});
+        }
+        catch(error){
             res.status(404).json({error:"Falla en la operacion"})
             console.log(error);
-
         }
+
+        
     },
 
      //Listar todos
      getcategorias: async (req,res) => {
         try{
             const categoria = await categorias.find();
-            req.json(categoria);
+            res.json({categoria});
         }catch(error){
             res.status(500).json({error:"Falla en la operacion"})
             console.log(error)

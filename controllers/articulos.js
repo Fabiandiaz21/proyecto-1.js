@@ -1,19 +1,27 @@
 import mongoose from "mongoose";
-import Articulos from "../routers/articulos.js"
+import Articulos from "../models/articulos.js"
 
 const httpArticulos = {
-    // añadir 
-    postArticulo: async (req,res) => {
-        try{
-            const {nombre,precio,categoria,stock,estado}=req.body
-            const articulo = new Articulos([nombre,precio,categoria,stock,estado]);
+    postArticulo: async (req, res) => {
+        try {
+            const { nombre, precio, categoria, stock } = req.body;
+            const articulo = new Articulos({
+                nombre,
+                precio,
+                categoria,
+                stock
+            });
             await articulo.save();
-        }catch(error){
-            res.status  (400).json({ error:"falla en la operacion"});
-            console.log(error)
+            
+            // Responde con el artículo creado
+            res.status(201).json({ articulo });
+        } catch (error) {
+            // Si ocurre un error, responde con un mensaje de error
+            console.log(error);
+            res.status(400).json({ error: "Falla en la operación!!" });
         }
     },
-
+    
     //modificar
     putArticulo:async (req,res ) => {
         try{
@@ -25,27 +33,26 @@ const httpArticulos = {
             }
 
             const {nombre,precio,categoria,stock,estado} = req.body;
-            const articulo = await Articulos.finByAndUdate(id,{nombre,precio,categoria,stock,estado},{new:true});  
+            const articulo = await Articulos.findByIdAndUpdate(id,{nombre,precio,categoria,stock,estado},{new:true});  
                 if(!articulo){
                     return res.status(404).json({error:"Movimiento no encontrado"})
-
                 }
                 res.json(articulo);
-
         }catch(error){
             res.status(400).json({error:"Falla en la operacion"})
             console.log(error)
         }
     },
 
-    //listar todos
-    getArticulo: async (req,res) => {
-        try{
+    getArticulo: async (req, res) => {
+        try {
+            // Encuentra todos los artículos en la base de datos
             const articulo = await Articulos.find();
-            res.json(articulo);
-        }catch(error){
-            res.status(500).json({error:"Falla en la operacion"})
-            console.log(error)
+            res.json(articulo);  // Devuelve la lista de artículos en formato JSON
+        } catch (error) {
+            // Si ocurre un error, responde con un error 500
+            console.error(error);
+            res.status(500).json({ error: "Falla en la operación" });
         }
     },
 

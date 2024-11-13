@@ -7,7 +7,7 @@ const router = Router();
 router.post("/",httpcategorias.postcategorias);
 
 //modificar una categoria
-router.put("/",httpcategorias.putcategorias);
+router.put("/modificar/:id",httpcategorias.putcategorias);
 
 //listar todos 
 router.get("/",httpcategorias.getcategorias);

@@ -5,75 +5,76 @@ import Terceros from "../models/terceros.js"
 const httpTerceros = {
 
     //añadir
-    postTerceros:async(req,res)=>{
-        try{
+    postTerceros: async (req, res) => {
+        try {
             const {
-                nombre,identificacion,direccion,telefono,email,estado,tipo
+                
+                nombre, identificacion, direccion, telefono, email, estado, tipo
             } = req.body
 
             const tercero = new Terceros({
-                nombre,identificacion,direccion,telefono,email,estado,tipo
+                nombre, identificacion, direccion, telefono, email, estado, tipo
             });
 
             await tercero.save();
-        }catch(error){
-            res.status(400).json({error:"Falla en la operacion"});
-            console.log (error)
+        } catch (error) {
+            res.status(400).json({ error: "Falla en la operacion" });
+            console.log(error)
         }
     },
 
     //modificar
-    putTerceros:async(req,res)=>{
-        try{
-            const {id} = req.params;
+    putTerceros: async (req, res) => {
+        try {
+            const { id } = req.params;
 
             //validar que el id sea un objeto valido
-            if (!mongoose.Types.ObjectId.isValid(id)){
-               return res.status(400).json({error:"ID no es valido"});
-           }
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(400).json({ error: "ID no es valido" });
+            }
 
             const {
-                nombre,identificacion,direccion,telefono,email,estado,tipo
+                nombre, identificacion, direccion, telefono, email, estado, tipo
             } = req.body
 
             const tercero = await Terceros.findByIdAndUpdate(req.params, {
-                nombre,identificacion,direccion,telefono,email,estado,tipo
-            }, {new:true});
+                nombre, identificacion, direccion, telefono, email, estado, tipo
+            }, { new: true });
 
-        }catch(error){
-            res.status(400).json({error:"Falla en la operacion"});
-            console.log (error)
+        } catch (error) {
+            res.status(400).json({ error: "Falla en la operacion" });
+            console.log(error)
         }
     },
 
     //listor todo 
-    getTerceros:async(req,res)=>{
-        
-        try{
+    getTerceros: async (req, res) => {
+
+        try {
             const terceros = await Terceros.find();
             req.json(terceros)
 
-        }catch(error){
-            res.status(500).json({error:"Falla en la operacion"})
+        } catch (error) {
+            res.status(500).json({ error: "Falla en la operacion" })
             console.log(error)
         }
     },
     //listar por ID
-    gatTercerosByid:async(req,res)=>{
-        try{
-            const {id} = req.params;
+    gatTercerosByid: async (req, res) => {
+        try {
+            const { id } = req.params;
 
             //validar que el id sea un objeto valido
-            if (!mongoose.Types.ObjectId.isValid(id)){
-               return res.status(400).json({error:"ID no es valido"});
-           }
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(400).json({ error: "ID no es valido" });
+            }
 
             const tercero = await Terceros.findById(id);
-            if(!tercero){
-                return res.status(404).json({error:"Terceros no encontrados"})
+            if (!tercero) {
+                return res.status(404).json({ error: "Terceros no encontrados" })
             }
             res.json(tercero);
-        }catch(error){
+        } catch (error) {
             res.status(400).json({ error: "Falla en la operación" });
             console.log(error);
         }
@@ -121,17 +122,17 @@ const httpTerceros = {
         }
     },
 
-      //Lista por activos
-      getActivos: async (req, res) => {
+    //Lista por activos
+    getActivos: async (req, res) => {
         try {
-            const terceros = await  Terceros.find({ estado: "aprobado" });
+            const terceros = await Terceros.find({ estado: "aprobado" });
             if (!terceros.length) {
                 return res.status(404).json({ error: "No se encontraron terceros aprobados" });
             }
 
             req.json({ terceros });
 
-        } catch (error){
+        } catch (error) {
             res.status(400).json({ error: "Operación no se realizó correctamente" });
             console.log(error);
         }
@@ -141,31 +142,31 @@ const httpTerceros = {
     getAnulados: async (req, res) => {
         try {
             const terceros = await Terceros.find({ estado: "anulado" });
-            
+
             if (!terceros.length) {
                 return res.status(404).json({ error: "No se encontraron terceros anulados" });
             }
 
             req.json({ terceros });
 
-        } catch (error){
+        } catch (error) {
             res.status(400).json({ error: "Operación no se realizó correctamente" });
             console.log(error);
         }
     },
 
     //tipo 
-    getTipoTerceros:async(req,res)=>{
-        try{
+    getTipoTerceros: async (req, res) => {
+        try {
             const terceros = await Terceros.find().select('tipo');
             if (!terceros.length) {
                 return res.status(404).json({ error: "No se encontraron terceros" });
             }
-    
+
             res.json({ terceros });
-        }catch(error){
-            res.status(400).json({error:"Falla en la operacion"});
-            console.log (error)
+        } catch (error) {
+            res.status(400).json({ error: "Falla en la operacion" });
+            console.log(error)
         }
     }
 
