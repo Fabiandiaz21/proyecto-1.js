@@ -13,7 +13,7 @@ router.post("/login", httpUsuarios.loginUsuario);
 router.put("/modificar/:id", httpUsuarios.putUsuario);
 
 // Listar todos los usuarios
-router.get("/", httpUsuarios.getUsuarios);
+router.get("/usuario", httpUsuarios.getUsuarios);
 
 // Listar un usuario por ID
 router.get("/:id", httpUsuarios.getUsuarioById);
