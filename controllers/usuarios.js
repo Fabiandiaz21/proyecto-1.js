@@ -11,7 +11,6 @@ const httpUsuarios = {
             const { nombre, email, contraseña, rol, estado } = req.body;
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(contraseña, salt);
-            
             const usuario = new usuarios({
                 nombre,email,contraseña : hashedPassword,rol,estado
             });
@@ -43,7 +42,7 @@ const httpUsuarios = {
             // Generar token JWT
             const token = jwt.sign(
                 { id: usuario._id, rol: usuario.rol },
-                "tu_secreto_jwt", // Reemplaza esto con una clave secreta segura en producción
+                process.env.JWT_SECRET_KEY, 
                 { expiresIn: "1h" }
             );
     
@@ -164,3 +163,6 @@ const httpUsuarios = {
 };
 
 export default httpUsuarios;
+
+
+//sin cambiossssss
