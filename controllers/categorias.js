@@ -122,7 +122,6 @@ const httpcategorias = {
         }
     },
 
-
      //Lista por inactivos
      getAnulados: async (req, res) => {
         try {
@@ -134,7 +133,6 @@ const httpcategorias = {
             console.log(error);
         }
     },
-
 
 }
 

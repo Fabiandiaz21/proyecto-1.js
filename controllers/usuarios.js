@@ -58,8 +58,8 @@ const httpUsuarios = {
     putUsuario: async (req, res) => {
         try {
             const { id } = req.params;
-            const { nombre, email, contraseña, rol } = req.body;
-            const usuario = await usuarios.findByIdAndUpdate(id, { nombre, email, contraseña, rol}, { new: true });
+            const { nombre, email, contraseña,estado, rol } = req.body;
+            const usuario = await usuarios.findByIdAndUpdate(id, { nombre, email, contraseña,estado, rol}, { new: true });
             res.json({ usuario });
         } catch (error) {
             res.status(404).json({ error: "Falla en la operación" });

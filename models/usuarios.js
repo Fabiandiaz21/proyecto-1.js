@@ -5,7 +5,7 @@ const usuarioSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     contraseña: { type: String, required: true },
     rol: { type: String, required: true,  default: 'usuario' },
-    estado: { type: String, required: true,  default: 'activo' }
+    estado: { type: String, required: true,   enum: ['activo', 'inactivo'], default: 'activo' }
 });
 
 export default mongoose.model("Usuario", usuarioSchema);

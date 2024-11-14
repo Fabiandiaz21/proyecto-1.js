@@ -25,9 +25,9 @@ router.put("/:id/activar", httpUsuarios.putActivarUsuario);
 router.put("/:id/inactivar", httpUsuarios.putInactivarUsuario);
 
 // Listar usuarios activos
-router.get("/activos", httpUsuarios.getActivos);
+router.get("/activos/A", httpUsuarios.getActivos);
 
 // Listar usuarios inactivos
-router.get("/inactivos", httpUsuarios.getInactivos);
+router.get("/inactivos/I", httpUsuarios.getInactivos);
 
 export default router;

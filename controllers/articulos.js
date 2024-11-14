@@ -68,7 +68,6 @@ const httpArticulos = {
         }
     },
 
-
     // activar
     putActivar: async (req, res) => {
         try {
@@ -107,7 +106,6 @@ const httpArticulos = {
         }
     },
 
-
     // listar activos 
     getActivos:async (req, res) => {
         try {
@@ -140,9 +138,6 @@ const httpArticulos = {
         }
     },
 
-
-
-
     // total inventario
     getTotalInventario: async (req, res)=>{
         try {
@@ -157,7 +152,6 @@ const httpArticulos = {
             console.log(error);
         }
     },
-
 
     // get por categoria
     getArticulosConCategorias: async (req, res) => {
@@ -192,7 +186,6 @@ const httpArticulos = {
             console.log(error);
         }
     }
-    
 
 }
 
