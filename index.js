@@ -6,9 +6,11 @@ import usuarios from './routers/usuarios.js'
 import movimientos from './routers/movimiento.js'
 import articulos from "./routers/articulos.js"
 import dotenv from 'dotenv';
+import cors from "cors"
 
 dotenv.config();
 const app = express()
+app.use(cors())
 app.use(express.json())
 app.use("/api/movimientos",movimientos)
 app.use("/api/articulos",articulos)
@@ -27,4 +29,3 @@ app.listen(process.env.PORT,()=>{
 
 
 // prueva de coneccion llllll
-///ho
