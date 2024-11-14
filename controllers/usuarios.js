@@ -23,35 +23,36 @@ const httpUsuarios = {
     },
 
     // Login de usuario
-    loginUsuario: async (req, res) => {
+  loginUsuario: async (req, res) => {
         try {
             const { email, contraseña } = req.body;
-
+    
             // Buscar el usuario por su correo electrónico
             const usuario = await usuarios.findOne({ email });
             if (!usuario) {
                 return res.status(404).json({ error: "Usuario no encontrado" });
             }
-
+    
             // Comparar la contraseña
             const isMatch = await bcrypt.compare(contraseña, usuario.contraseña);
             if (!isMatch) {
                 return res.status(400).json({ error: "Contraseña incorrecta" });
             }
-
+    
             // Generar token JWT
             const token = jwt.sign(
                 { id: usuario._id, rol: usuario.rol },
-                "tu_secreto_jwt", // Reemplaza esto con una clave secreta en producción
+                "tu_secreto_jwt", // Reemplaza esto con una clave secreta segura en producción
                 { expiresIn: "1h" }
             );
-
+    
             res.json({ mensaje: "Login exitoso", token });
         } catch (error) {
             res.status(500).json({ error: "Falla en la operación" });
             console.log(error);
         }
     },
+    
 
     // Modificar
     putUsuario: async (req, res) => {
