@@ -1,8 +1,7 @@
-const Categoria = require('../models/categorias');
-
+import Categoria from '../models/categorias.js';
 
 const helpercategoria = {
-    
+
     validarId:async (id)=>{
         const existe=await Categoria.findById(id)
         if(!existe){
@@ -12,4 +11,4 @@ const helpercategoria = {
 
 }
 
-module.exports={helpercategoria}
+export default helpercategoria

@@ -10,13 +10,9 @@ const httpUsuarios = {
             const { nombre, email, contraseña, rol, estado } = req.body;
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(contraseña, salt);
-
+            
             const usuario = new Usuario({
-                nombre,
-                email,
-                contraseña: hashedPassword,
-                rol,
-                estado
+                nombre,email,contraseña : hashedPassword,rol,estado
             });
             await usuario.save();
             res.json({ usuario });
