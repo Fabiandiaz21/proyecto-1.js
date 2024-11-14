@@ -42,7 +42,7 @@ const httpUsuarios = {
             // Generar token JWT
             const token = jwt.sign(
                 { id: usuario._id, rol: usuario.rol },
-                "tu_secreto_jwt", // Reemplaza esto con una clave secreta en producción
+                process.env.JWT_SECRET_KEY, // Reemplaza esto con una clave secreta en producción
                 { expiresIn: "1h" }
             );
 
