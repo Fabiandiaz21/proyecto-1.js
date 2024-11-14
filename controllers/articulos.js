@@ -2,36 +2,30 @@ import mongoose from "mongoose";
 import Articulos from "../models/articulos.js"
 
 const httpArticulos = {
-    postArticulo: async (req, res) => {
+
+    //crear articulos
+    postArticulo:async(req, res)=>{
         try {
-            const { nombre, precio, categoria, stock } = req.body;
+            const { 
+                nombre, precio, categoria, stock 
+            } = req.body;
             const articulo = new Articulos({
-                nombre,
-                precio,
-                categoria,
-                stock
+                nombre,precio,categoria,stock
             });
             await articulo.save();
-            
-            // Responde con el artículo creado
-            res.status(201).json({ articulo });
-        } catch (error) {
-            // Si ocurre un error, responde con un mensaje de error
-            console.log(error);
-            res.status(400).json({ error: "Falla en la operación!!" });
+            res.json({ articulo });
+        }catch(error){
+            res.status(400).json({error:"Falla en la operación"})
+            console.log(error)
         }
     },
     
     //modificar
-    putArticulo:async (req,res ) => {
+    putArticuloM:async (req,res ) => {
         try{
-            const {id} = req.params;
-
-            //validar que el id sea un objeto valido
+            const {id} = req.params
             if (!mongoose.Types.ObjectId.isValid(id)){
-                return res.status(400).json({error:"ID no es valido"});
-            }
-
+                return res.status(400).json({error:"ID no es valido"});};
             const {nombre,precio,categoria,stock,estado} = req.body;
             const articulo = await Articulos.findByIdAndUpdate(id,{nombre,precio,categoria,stock,estado},{new:true});  
                 if(!articulo){
@@ -44,6 +38,7 @@ const httpArticulos = {
         }
     },
 
+    //listar todos los articulos
     getArticulo: async (req, res) => {
         try {
             // Encuentra todos los artículos en la base de datos
@@ -62,32 +57,27 @@ const httpArticulos = {
             const {id} = req.params;
             // Validar que el ID sea un ObjectId válido
             if (!mongoose.Types.ObjectId.isValid(id)) {
-                return res.status(400).json({ error: "ID no válido" });
-            }
-
+                return res.status(400).json({ error: "ID no válido" });}
             const articulo = await Articulos.findById(id);
             if (!articulo) {
-                return res.status(404).json({ error: "Articulo no encontrado" });
-            }
+                return res.status(404).json({ error: "Articulo no encontrado" });}
             res.json({ articulo });
         } catch (error) {
             res.status(400).json({ error: "Falla en la operación" });
             console.log(error);
         }
-        },
+    },
 
 
     // activar
     putActivar: async (req, res) => {
         try {
-            const { id } = req.params;
-
-            // Validar que el ID sea un ObjectId válido
+            const { id } = req.params
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 return res.status(400).json({ error: "ID no válido" });
             }
 
-            const articulo = await Articulos.findByIdAndUpdate(id, { state: 1 }, { new: true });
+            const articulo = await Articulos.findByIdAndUpdate(id, { estado: "aprobado" }, { new: true });
             if (!articulo) {
                 return res.status(404).json({ error: "movimiento no encontrado" });
             }
@@ -101,14 +91,12 @@ const httpArticulos = {
     // inactivar
      putInactivar: async (req, res) => {
         try {
-            const { id } = req.params;
-
-            // Validar que el ID sea un ObjectId válido
+            const { id } = req.params
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 return res.status(400).json({ error: "ID no válido" });
             }
 
-            const articulo = await Articulos.findByIdAndUpdate(id, { state: 0 }, { new: true });
+            const articulo = await Articulos.findByIdAndUpdate(id, { estado: "anulado" },{ new: true });
             if (!articulo) {
                 return res.status(404).json({ error: "articulo no encontrado" });
             }
@@ -139,7 +127,7 @@ const httpArticulos = {
      // listar inactivos
      getInactivos:async (req, res) => {
         try {
-            const inactivos = await Articulos.find({ estado: "aprobado" });
+            const inactivos = await Articulos.find({ estado: "anulado" });
             
             if (!inactivos.length) {
                 return res.status(404).json({ error: "No se encontraron movimientos aprobados" });

@@ -22,10 +22,10 @@ router.put("/:id/activar",httpcategorias.putActivarCategorias);
 router.put("/:id/anulados",httpcategorias.putInactivarCategorias);
 
 //listar activos
-router.get("/:id/aprobados", httpcategorias.getActivos);
+router.get("/aprobados/AP", httpcategorias.getActivos);
 
 //listar inactivos
-router.get("/:id/inactivos", httpcategorias.getAnulados)
+router.get("/inaprobados/INA", httpcategorias.getAnulados)
 
 
 

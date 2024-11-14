@@ -5,28 +5,31 @@ import httpArticulos from "../controllers/articulos.js";
 const router = Router()
 
 // Crear artículo
-router.post('/', httpArticulos.postArticulo);
+router.post('/registrar', httpArticulos.postArticulo);
 
 // Modificar artículo
-router.put('/:id', httpArticulos.putArticulo);
+router.put('/:id', httpArticulos.putArticuloM);
 
 // Listar todos los artículos
-router.get('/', httpArticulos.getArticulo);
+router.get('/articulo', httpArticulos.getArticulo);
 
 // Listar un artículo por ID
-router.get('/:id', httpArticulos.getArticuloById);
+router.get('/articulo/:id', httpArticulos.getArticuloById);
 
 // Activar un artículo
-router.put('/activar/:id', httpArticulos.putActivar);
+router.put('/:id/activar', httpArticulos.putActivar);
 
 // Inactivar un artículo
-router.put('/inactivar/:id', httpArticulos.putInactivar);
+router.put('/:id/inactivar', httpArticulos.putInactivar);
 
 // Listar artículos activos
 router.get('/activos', httpArticulos.getActivos);
 
 // Listar artículos inactivos
 router.get('/inactivos', httpArticulos.getInactivos);
+
+
+
 
 // Obtener el valor total del inventario
 router.get('/total-inventario', httpArticulos.getTotalInventario);

@@ -79,7 +79,7 @@ const httpcategorias = {
                 return res.status(400).json({ error: "ID no válido" });
             }
 
-            const categoria = await categorias.findByIdAndUpdate(id, { state: "aprobado" }, { new: true });
+            const categoria = await categorias.findByIdAndUpdate(id, { estado: "aprobado" }, { new: true });
             if (!categoria) {
                 return res.status(404).json({ error: "categoria no encontrada" });
             }
@@ -100,7 +100,7 @@ const httpcategorias = {
                 return res.status(400).json({ error: "ID no válido" });
             }
 
-            const categoria = await categorias.findByIdAndUpdate(id, { state: "anulado" }, { new: true });
+            const categoria = await categorias.findByIdAndUpdate(id, { estado: "anulado" }, { new: true });
             if (!categorias) {
                 return res.status(404).json({ error: "categoria no encontrada" });
             }
@@ -114,14 +114,8 @@ const httpcategorias = {
     //Lista por activos
     getActivos: async (req, res) => {
         try {
-            const categoria = await categorias.find({ estado: "aprobado" });
-            
-            if (!categoria.length) {
-                return res.status(404).json({ error: "No se encontraron categorias aprobadas" });
-            }
-
-            req.json({ categoria });
-
+            const categoria = await categorias.find({ estado: "activo" });
+            res.json({ categoria });
         } catch (error){
             res.status(400).json({ error: "Operación no se realizó correctamente" });
             console.log(error);
@@ -133,12 +127,7 @@ const httpcategorias = {
      getAnulados: async (req, res) => {
         try {
             const categoria = await categorias.find({ estado: "anulado" });
-            
-            if (!categoria.length) {
-                return res.status(404).json({ error: "No se encontraron categorias anuladas" });
-            }
-
-            req.json({ categoria });
+            res.json({ categoria });
 
         } catch (error){
             res.status(400).json({ error: "Operación no se realizó correctamente" });
