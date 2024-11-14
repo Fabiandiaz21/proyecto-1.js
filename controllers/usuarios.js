@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import usuarios from "../models/usuarios.js";
 import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
 
 const httpUsuarios = {
     
@@ -31,7 +32,7 @@ const httpUsuarios = {
             if (!usuario) {
                 return res.status(404).json({ error: "Usuario no encontrado" });
             }
-    
+
             // Comparar la contraseña
             const isMatch = await bcrypt.compare(contraseña, usuario.contraseña);
             if (!isMatch) {
