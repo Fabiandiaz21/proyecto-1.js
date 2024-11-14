@@ -17,6 +17,7 @@ const httpTerceros = {
             });
 
             await tercero.save();
+            res.json({ tercero });
         } catch (error) {
             res.status(400).json({ error: "Falla en la operacion" });
             console.log(error)
@@ -52,7 +53,7 @@ const httpTerceros = {
 
         try {
             const terceros = await Terceros.find();
-            req.json(terceros)
+            res.json(terceros)
 
         } catch (error) {
             res.status(500).json({ error: "Falla en la operacion" })

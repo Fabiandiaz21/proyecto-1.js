@@ -14,6 +14,7 @@ const httpmovimientos = {
             tipo,num_fact,fecha,articulos,valor,iva,total,estado
         });
         await movimiento.save();
+        res.json({ movimiento });
         }catch(error){
             res.status  (400).json({ error:"falla en la operacion"});
             console.log(error)
