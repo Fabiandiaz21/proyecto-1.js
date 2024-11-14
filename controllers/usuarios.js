@@ -11,7 +11,7 @@ const httpUsuarios = {
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(contraseña, salt);
             
-            const usuario = new Usuario({
+            const usuario = new usuarios({
                 nombre,email,contraseña : hashedPassword,rol,estado
             });
             await usuario.save();
@@ -28,7 +28,7 @@ const httpUsuarios = {
             const { email, contraseña } = req.body;
 
             // Buscar el usuario por su correo electrónico
-            const usuario = await Usuario.findOne({ email });
+            const usuario = await usuarios.findOne({ email });
             if (!usuario) {
                 return res.status(404).json({ error: "Usuario no encontrado" });
             }
