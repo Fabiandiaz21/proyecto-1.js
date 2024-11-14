@@ -144,17 +144,13 @@ const httpArticulos = {
 
 
     // total inventario
-
-    getTotalInventario: async (req, res) => {
+    getTotalInventario: async (req, res)=>{
         try {
             // Encuentra todos los artículos con estado 'activo'
-            const articulosActivos = await Articulos.find({ estado: 'activo' });
-    
+            const articulosActivos = await Articulos.find()
             // Calcular el valor total del inventario
-            const totalInventario = articulosActivos.reduce((total, articulo) => {
-                return total + (articulo.precio * articulo.stock);
-            }, 0);
-    
+            const totalInventario = articulosActivos.reduce((total,articulo)=>{
+            return total + (articulo.precio * articulo.stock);},0)
             res.json({ totalInventario });
         } catch (error) {
             res.status(500).json({ error: "Falla en la operación" });
