@@ -10,7 +10,6 @@ const httpUsuarios = {
             const { nombre, email, contraseña, rol, estado } = req.body;
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(contraseña, salt);
-            
             const usuario = new usuarios({
                 nombre,email,contraseña : hashedPassword,rol,estado
             });
@@ -23,35 +22,36 @@ const httpUsuarios = {
     },
 
     // Login de usuario
-    loginUsuario: async (req, res) => {
+  loginUsuario: async (req, res) => {
         try {
             const { email, contraseña } = req.body;
-
+    
             // Buscar el usuario por su correo electrónico
             const usuario = await usuarios.findOne({ email });
             if (!usuario) {
                 return res.status(404).json({ error: "Usuario no encontrado" });
             }
-
+    
             // Comparar la contraseña
             const isMatch = await bcrypt.compare(contraseña, usuario.contraseña);
             if (!isMatch) {
                 return res.status(400).json({ error: "Contraseña incorrecta" });
             }
-
+    
             // Generar token JWT
             const token = jwt.sign(
                 { id: usuario._id, rol: usuario.rol },
-                process.env.JWT_SECRET_KEY, // Reemplaza esto con una clave secreta en producción
+                process.env.JWT_SECRET_KEY, 
                 { expiresIn: "1h" }
             );
-
+    
             res.json({ mensaje: "Login exitoso", token });
         } catch (error) {
             res.status(500).json({ error: "Falla en la operación" });
             console.log(error);
         }
     },
+    
 
     // Modificar
     putUsuario: async (req, res) => {
@@ -162,3 +162,6 @@ const httpUsuarios = {
 };
 
 export default httpUsuarios;
+
+
+//sin cambiossssss
