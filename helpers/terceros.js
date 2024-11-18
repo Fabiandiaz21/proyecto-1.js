@@ -1,4 +1,4 @@
-import Tercero from "../models/Tercero";
+import Tercero from "../models/terceros.js";
 
 const helperTerceros = {
     validarEmail: async (email) => {

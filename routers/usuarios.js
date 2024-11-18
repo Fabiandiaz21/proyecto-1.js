@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import httpUsuarios from "../controllers/usuarios.js";
+import {validarJWT} from "../Middlewares/ValidarJWT.js"
+import  validarcampos  from "../Middlewares/validar.js"
+import helperUsuario from "../helpers/usuarios.js";
 
 const router = Router();
 
@@ -10,11 +13,13 @@ router.post("/",[
     check("email","El campo email es obligatorio").notEmpty().isEmail(),
     check("contraseña","El campo contraseña es obligatorio").notEmpty().isLength({ min: 8 }),
     check("rol","El campo rol es obligatorio").notEmpty(),
-    check("estado","El campo estado es obligatorio").notEmpty()
+    check("estado","El campo estado es obligatorio").notEmpty(),
+    validarcampos
 ], httpUsuarios.postUsuario);
 
 // Ruta para el inicio de sesión de usuario
-router.post("/login", httpUsuarios.loginUsuario);
+router.post("/login",[
+], httpUsuarios.loginUsuario);
 
 // Modificar un usuario
 router.put("/modificar/:id",[
@@ -24,6 +29,7 @@ router.put("/modificar/:id",[
 
 // Listar todos los usuarios
 router.get("/usuario",[
+    validarJWT,
     check("nombre","El campo nombre es obligatorio").notEmpty(),
     check("email","El campo email es obligatorio").notEmpty().isEmail(),
     check("contraseña","El campo contraseña es obligatorio").notEmpty().isLength({ min: 8 }),

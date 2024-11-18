@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import usuarios from "../models/usuarios.js";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import { generarJWT } from "../Middlewares/ValidarJWT.js"
 
 const httpUsuarios = {
     
@@ -40,12 +41,7 @@ const httpUsuarios = {
             }
     
             // Generar token JWT
-            const token = jwt.sign(
-                { id: usuario._id, rol: usuario.rol },
-                process.env.JWT_SECRET_KEY, 
-                { expiresIn: "1h" }
-            );
-    
+            const token = await generarJWT(usuario._id);
             res.json({ mensaje: "Login exitoso", token });
         } catch (error) {
             res.status(500).json({ error: "Falla en la operación" });

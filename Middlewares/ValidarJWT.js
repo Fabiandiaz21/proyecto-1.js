@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import Usuarios from "../models/usarios.js"
+import Usuarios from "../models/usuarios.js"
 
 const generarJWT = (uid) => {
     return new Promise((resolve, reject) => {
@@ -52,4 +52,4 @@ const validarJWT = async (req, res, next) => {
     }
 };
 
-export default { generarJWT, validarJWT };
+export  { generarJWT, validarJWT };
