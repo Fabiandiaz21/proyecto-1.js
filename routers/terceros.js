@@ -1,35 +1,65 @@
-import {Router} from "express";
+import { Router } from "express";
+import { check } from "express-validator"; // Agregamos express-validator para validaciones
 import httpTerceros from "../controllers/terceros.js";
+import helperTerceros from "../helpers/terceros.js";
 
-const router =Router();
+const router = Router();
 
 // Crear un nuevo tercero
-router.post("/", httpTerceros.postTerceros);
+router.post("/", [
+    check("nombre", "El nombre es obligatorio").notEmpty(),
+    check("identificacion", "La identificación es obligatoria").notEmpty(),
+    check("tipo", "El tipo es obligatorio y debe ser 'cliente' o 'proveedor'").isIn(['cliente', 'proveedor']),
+    check("email", "El email es obligatorio y debe ser válido").isEmail(),
+    check("direccion", "La dirección es obligatoria").notEmpty(),
+    check("telefono", "El teléfono es obligatorio").notEmpty(),
+    check("estado", "El estado es obligatorio y debe ser 'activo' o 'inactivo'").isIn(['activo', 'inactivo'])
+], httpTerceros.postTerceros);
 
-// Modificar un tercero 
-router.put("/", httpTerceros.putTerceros);
+// Modificar un tercero
+router.put("/:id", [
+    check("id", "El id no es válido").isMongoId(),
+    check("id", "El tercero no existe").custom(helperTerceros.validarId),
+    // Validaciones similares a las de creación
+    check("nombre", "El nombre es obligatorio").notEmpty(),
+    check("identificacion", "La identificación es obligatoria").notEmpty(),
+    check("tipo", "El tipo es obligatorio y debe ser 'cliente' o 'proveedor'").isIn(['cliente', 'proveedor']),
+    check("email", "El email es obligatorio y debe ser válido").isEmail(),
+    check("direccion", "La dirección es obligatoria").notEmpty(),
+    check("telefono", "El teléfono es obligatorio").notEmpty(),
+    check("estado", "El estado es obligatorio y debe ser 'activo' o 'inactivo'").isIn(['activo', 'inactivo'])
+], httpTerceros.putTerceros);
 
-//listar todos los terceros
+// Listar todos los terceros
 router.get("/", httpTerceros.getTerceros);
 
-// Obtener terceros por ID
-router.get("/:id", httpTerceros.gatTercerosByid);
+// Obtener tercero por ID
+router.get("/:id", [
+    check("id", "El id no es válido").isMongoId(),
+    check("id", "El tercero no existe").custom(helperTerceros.validarId)
+], httpTerceros.getTerceroById);
 
-//Activar
-router.put("/:id/activar",httpTerceros.putActivarTerceros);
+// Activar un tercero por ID
+router.put("/:id/activar", [
+    check("id", "El id no es válido").isMongoId(),
+    check("id", "El tercero no existe").custom(helperTerceros.validarId)
+], httpTerceros.putActivarTerceros);
 
-//Desactivar
-router.put("/:id/anulados",httpTerceros.putInactivarTerceros);
+// Desactivar un tercero por ID
+router.put("/:id/anulados", [
+    check("id", "El id no es válido").isMongoId(),
+    check("id", "El tercero no existe").custom(helperTerceros.validarId)
+], httpTerceros.putInactivarTerceros);
 
-//listar activos
+// Listar terceros activos
 router.get("/:id/aprobados", httpTerceros.getActivos);
 
-//listar inactivos
+// Listar terceros inactivos
 router.get("/:id/inactivos", httpTerceros.getAnulados);
 
-//tipo
-router.get("/tipo",httpTerceros.getTipoTerceros);
-
+// Obtener tipos de terceros
+router.get("/tipo", httpTerceros.getTipoTerceros);
 
 export default router;
+
 
