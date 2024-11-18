@@ -1,9 +1,6 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import httpUsuarios from "../controllers/usuarios.js";
-import helperUsuario from "../helpers/usuarios.js";
-
-
 
 const router = Router();
 
@@ -17,10 +14,7 @@ router.post("/",[
 ], httpUsuarios.postUsuario);
 
 // Ruta para el inicio de sesión de usuario
-router.post("/login",[
-    check("email","El campo email es obligatorio").notEmpty().isEmail(),
-    check("contraseña","El campo contraseña es obligatorio").notEmpty().isLength({ min: 8 }),
-], httpUsuarios.loginUsuario);
+router.post("/login", httpUsuarios.loginUsuario);
 
 // Modificar un usuario
 router.put("/modificar/:id",[

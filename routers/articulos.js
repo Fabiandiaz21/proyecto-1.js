@@ -2,6 +2,7 @@ import { Router } from "express";
 import { check } from "express-validator";
 import helperArticulo from "../helpers/ariculos.js";
 import httpArticulos from "../controllers/articulos.js";
+import ValidarJWTJS from "../Middlewares/Validar-JWT.JS";
 
 
 
@@ -9,6 +10,7 @@ const router = Router()
 
 // Crear artículo
 router.post('/registrar',[
+    
     check("nombre","El campo nombre es obligatorio").notEmpty(),
     check("precio","El campo precio es obligatorio").notEmpty().isNumeric(),
     check("stock","El campo stock es obligatorio").notEmpty().isNumeric(),
