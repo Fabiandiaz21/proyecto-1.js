@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { check } from "express-validator"; // Agregamos express-validator para validaciones
+import { check } from "express-validator";
 import httpTerceros from "../controllers/terceros.js";
 import helperTerceros from "../helpers/terceros.js";
 
@@ -20,7 +20,6 @@ router.post("/", [
 router.put("/:id", [
     check("id", "El id no es válido").isMongoId(),
     check("id", "El tercero no existe").custom(helperTerceros.validarId),
-    // Validaciones similares a las de creación
     check("nombre", "El nombre es obligatorio").notEmpty(),
     check("identificacion", "La identificación es obligatoria").notEmpty(),
     check("tipo", "El tipo es obligatorio y debe ser 'cliente' o 'proveedor'").isIn(['cliente', 'proveedor']),
