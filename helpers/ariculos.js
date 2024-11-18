@@ -1,5 +1,4 @@
-const Articulo = require('../models/articulos');
-
+import Articulo from '../models/articulos.js';
 
 const helperArticulo = {
     
@@ -12,4 +11,4 @@ const helperArticulo = {
 
 }
 
-module.exports={helperArticulo}
+export default helperArticulo
