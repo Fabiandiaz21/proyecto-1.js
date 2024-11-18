@@ -37,7 +37,7 @@ router.get("/", httpTerceros.getTerceros);
 router.get("/:id", [
     check("id", "El id no es válido").isMongoId(),
     check("id", "El tercero no existe").custom(helperTerceros.validarId)
-], httpTerceros.getTerceroById);
+], httpTerceros.gatTercerosByid);
 
 // Activar un tercero por ID
 router.put("/:id/activar", [
