@@ -1,4 +1,4 @@
-import movimiento from "../models/movimientos";
+import movimiento from "../models/movimientos.js";
 
 const helperMovimiento = {
     validarId:async (id)=>{
