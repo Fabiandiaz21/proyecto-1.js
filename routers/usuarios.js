@@ -1,13 +1,16 @@
 import { Router } from "express";
 import httpUsuarios from "../controllers/usuarios.js";
-
+import { validarJWT } from "../Middlewares/ValidarJWT.JS"  
 const router = Router();
 
 // Crear un nuevo usuario
 router.post("/", httpUsuarios.postUsuario);
 
 // Ruta para el inicio de sesión de usuario
-router.post("/login", httpUsuarios.loginUsuario);
+router.post("/login",[
+    
+
+], httpUsuarios.loginUsuario);
 
 // Modificar un usuario
 router.put("/modificar/:id", httpUsuarios.putUsuario);
