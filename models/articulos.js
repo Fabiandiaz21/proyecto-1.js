@@ -8,4 +8,4 @@ const articuloSchema = new mongoose.Schema({
     estado:{ type: String, required: true, enum: ['activo', 'inactivo'], default: 'activo' }// 1:activo -- 0:inactivo
 })
 
-export default mongoose.model('Articulo',articuloSchema);
+export default mongoose.model('Articulo',articuloSchema); 
