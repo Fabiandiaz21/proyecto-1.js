@@ -24,10 +24,10 @@ const httpcategorias = {
 putcategorias: async (req, res) => {
     try {
         const { id } = req.params; // Obtener el id de la categoría desde la URL
-        const { descripcion, estado } = req.body; // Obtener descripcion y estado del cuerpo de la solicitud
+        const { descripcion } = req.body; // Obtener descripcion y estado del cuerpo de la solicitud
 
         // Actualizar la categoría en la base de datos
-        const categoria = await categorias.findByIdAndUpdate(id, { descripcion, estado }, { new: true });
+        const categoria = await categorias.findByIdAndUpdate(id, { descripcion }, { new: true });
 
         // Si la categoría no se encuentra
         if (!categoria) {
@@ -87,7 +87,7 @@ putcategorias: async (req, res) => {
                 return res.status(400).json({ error: "ID no válido" });
             }
 
-            const categoria = await categorias.findByIdAndUpdate(id, { estado: "aprobado" }, { new: true });
+            const categoria = await categorias.findByIdAndUpdate(id, { estado: "activo" }, { new: true });
             if (!categoria) {
                 return res.status(404).json({ error: "categoria no encontrada" });
             }
@@ -108,7 +108,7 @@ putcategorias: async (req, res) => {
                 return res.status(400).json({ error: "ID no válido" });
             }
 
-            const categoria = await categorias.findByIdAndUpdate(id, { estado: "anulado" }, { new: true });
+            const categoria = await categorias.findByIdAndUpdate(id, { estado: "inactivo" }, { new: true });
             if (!categorias) {
                 return res.status(404).json({ error: "categoria no encontrada" });
             }
