@@ -36,7 +36,7 @@ router.get("/usuario",[
 ],httpUsuarios.getUsuarios);
 
 // Listar un usuario por ID
-router.get("/:id",[
+router.get("/:id",[ 
     check("id", "El id no es valido").isMongoId(),
     check("id", "El id no existe").custom(helperUsuario.validarId)
 ], httpUsuarios.getUsuarioById);

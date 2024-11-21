@@ -1,19 +1,18 @@
-import Tercero from "../models/terceros.js";
+import proveedores from "../models/proveedores.js";
 
-const helperTerceros = {
+const helperProveedor= {
     validarEmail: async (email) => {
-        const existe = await Tercero.findOne({ email })
+        const existe = await proveedores.findOne({ email })
         if (existe) {
             throw new Error("El email ya existe")
         }
     },
     validarId: async (id) => {
-        const existe = await Tercero.findById(id)
+        const existe = await proveedores.findById(id)
         if (!existe) {
             throw new Error("Id no existe")
         }
     }
 }
 
-export default helperTerceros
-
+export default helperProveedor
