@@ -1,23 +1,23 @@
 import mongoose from "mongoose";
-import Terceros from "../models/terceros.js"
+import proveedores from "../models/proveedores.js";
 
 
-const httpTerceros = {
+const httpProveedores = {
 
     //añadir
-    postTerceros: async (req, res) => {
+    postProveedores: async (req, res) => {
         try {
             const {
                 
-                nombre, identificacion, direccion, telefono, email, estado, tipo
+                nombre, identificacion, direccion, telefono, email, estado
             } = req.body
 
-            const tercero = new Terceros({
-                nombre, identificacion, direccion, telefono, email, estado, tipo
+            const proveedor = new proveedores({
+                nombre, identificacion, direccion, telefono, email, estado
             });
 
-            await tercero.save();
-            res.json({ tercero });
+            await proveedor.save();
+            res.json({ proveedor });
         } catch (error) {
             res.status(400).json({ error: "Falla en la operacion" });
             console.log(error)
@@ -25,7 +25,7 @@ const httpTerceros = {
     },
 
     //modificar
-    putTerceros: async (req, res) => {
+    putProveedores: async (req, res) => {
         try {
             const { id } = req.params;
 
@@ -35,11 +35,11 @@ const httpTerceros = {
             }
 
             const {
-                nombre, identificacion, direccion, telefono, email, estado, tipo
+                nombre, identificacion,direccion, telefono, email, estado
             } = req.body
 
-            const tercero = await Terceros.findByIdAndUpdate(req.params, {
-                nombre, identificacion, direccion, telefono, email, estado, tipo
+            const proveedor = await proveedores.findByIdAndUpdate(req.params, {
+                nombre, identificacion,direccion, telefono, email, estado
             }, { new: true });
 
         } catch (error) {
@@ -49,11 +49,11 @@ const httpTerceros = {
     },
 
     //listor todo 
-    getTerceros: async (req, res) => {
+    getProveedores: async (req, res) => {
 
         try {
-            const terceros = await Terceros.find();
-            res.json(terceros)
+            const proveedor = await proveedores.find();
+            res.json(proveedor)
 
         } catch (error) {
             res.status(500).json({ error: "Falla en la operacion" })
@@ -61,7 +61,7 @@ const httpTerceros = {
         }
     },
     //listar por ID
-    gatTercerosByid: async (req, res) => {
+    gatProveedorByid: async (req, res) => {
         try {
             const { id } = req.params;
 
@@ -70,11 +70,11 @@ const httpTerceros = {
                 return res.status(400).json({ error: "ID no es valido" });
             }
 
-            const tercero = await Terceros.findById(id);
-            if (!tercero) {
+            const proveedor = await proveedores.findById(id);
+            if (!proveedor) {
                 return res.status(404).json({ error: "Terceros no encontrados" })
             }
-            res.json(tercero);
+            res.json(proveedor);
         } catch (error) {
             res.status(400).json({ error: "Falla en la operación" });
             console.log(error);
@@ -82,7 +82,7 @@ const httpTerceros = {
     },
 
     //Activar
-    putActivarTerceros: async (req, res) => {
+    putActivarProveedor: async (req, res) => {
         try {
             const { id } = req.params;
 
@@ -91,19 +91,18 @@ const httpTerceros = {
                 return res.status(400).json({ error: "ID no válido" });
             }
 
-            const tercero = await Terceros.findByIdAndUpdate(id, { state: "aprobado" }, { new: true });
-            if (!tercero) {
+            const proveedor = await proveedores.findByIdAndUpdate(id, { state: "aprobado" }, { new: true });
+            if (!proveedor) {
                 return res.status(404).json({ error: "terceros no encontrados" });
             }
-            res.json({ tercero });
+            res.json({ proveedor });
         } catch (error) {
             res.status(400).json({ error: "Operación no se realizó correctamente" });
             console.log(error);
         }
     },
 
-    //Desactivar
-    putInactivarTerceros: async (req, res) => {
+    putInactivarProveedor: async (req, res) => {
         try {
             const { id } = req.params;
 
@@ -112,11 +111,11 @@ const httpTerceros = {
                 return res.status(400).json({ error: "ID no válido" });
             }
 
-            const terceros = await Terceros.findByIdAndUpdate(id, { state: "anulado" }, { new: true });
-            if (!terceros) {
+            const proveedor = await proveedores.findByIdAndUpdate(id, { state: "anulado" }, { new: true });
+            if (!proveedor) {
                 return res.status(404).json({ error: "terceros no encontrados" });
             }
-            res.json({ terceros });
+            res.json({ proveedor });
         } catch (error) {
             res.status(400).json({ error: "La operación no se realizó correctamente" });
             console.log(error);
@@ -126,12 +125,12 @@ const httpTerceros = {
     //Lista por activos
     getActivos: async (req, res) => {
         try {
-            const terceros = await Terceros.find({ estado: "aprobado" });
-            if (!terceros.length) {
+            const proveedor = await proveedores.find({ estado: "aprobado" });
+            if (!proveedor.length) {
                 return res.status(404).json({ error: "No se encontraron terceros aprobados" });
             }
 
-            req.json({ terceros });
+            req.json({ proveedor });
 
         } catch (error) {
             res.status(400).json({ error: "Operación no se realizó correctamente" });
@@ -142,38 +141,20 @@ const httpTerceros = {
     //Lista por inactivos
     getAnulados: async (req, res) => {
         try {
-            const terceros = await Terceros.find({ estado: "anulado" });
+            const proveedor = await proveedores.find({ estado: "anulado" });
 
-            if (!terceros.length) {
+            if (!proveedor.length) {
                 return res.status(404).json({ error: "No se encontraron terceros anulados" });
             }
 
-            req.json({ terceros });
+            req.json({ proveedor });
 
         } catch (error) {
             res.status(400).json({ error: "Operación no se realizó correctamente" });
             console.log(error);
         }
     },
-
-    //tipo 
-    getTipoTerceros: async (req, res) => {
-        try {
-            const terceros = await Terceros.find().select('tipo');
-            if (!terceros.length) {
-                return res.status(404).json({ error: "No se encontraron terceros" });
-            }
-
-            res.json({ terceros });
-        } catch (error) {
-            res.status(400).json({ error: "Falla en la operacion" });
-            console.log(error)
-        }
-    }
-
-
-
 }
 
-export default httpTerceros;
+export default httpProveedores;
 

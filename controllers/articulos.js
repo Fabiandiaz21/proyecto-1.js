@@ -42,7 +42,7 @@ const httpArticulos = {
     getArticulo: async (req, res) => {
         try {
             // Encuentra todos los artículos en la base de datos
-            const articulo = await Articulos.find();
+            const articulo = await Articulos.find().populate("categoria");
             res.json(articulo);  // Devuelve la lista de artículos en formato JSON
         } catch (error) {
             // Si ocurre un error, responde con un error 500
