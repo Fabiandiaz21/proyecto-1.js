@@ -20,21 +20,29 @@ const httpcategorias = {
         }
     },
 
-    //Modificar
-    putcategorias:async(req,res)=>{
-        try{
-            const {id} = req.params;
-            const {descripcion,estado} = req.body
-            const categoria = await categorias.findByIdAndUpdate(id,{descripcion,estado},{new:true});
-            res.json({categoria});
-        }
-        catch(error){
-            res.status(404).json({error:"Falla en la operacion"})
-            console.log(error);
+    // Función para modificar una categoría
+putcategorias: async (req, res) => {
+    try {
+        const { id } = req.params; // Obtener el id de la categoría desde la URL
+        const { descripcion } = req.body; // Obtener descripcion y estado del cuerpo de la solicitud
+
+        // Actualizar la categoría en la base de datos
+        const categoria = await categorias.findByIdAndUpdate(id, { descripcion }, { new: true });
+
+        // Si la categoría no se encuentra
+        if (!categoria) {
+            return res.status(404).json({ error: 'Categoría no encontrada' });
         }
 
-        
-    },
+        // Devolver la categoría actualizada
+        res.json({ message: 'Categoría actualizada con éxito', categoria });
+    } catch (error) {
+        // Manejo de errores
+        console.error('Error al actualizar la categoría:', error);
+        res.status(500).json({ error: 'Falla en la operación', details: error.message });
+    }
+},
+
 
      //Listar todos
      getcategorias: async (req,res) => {
@@ -79,7 +87,7 @@ const httpcategorias = {
                 return res.status(400).json({ error: "ID no válido" });
             }
 
-            const categoria = await categorias.findByIdAndUpdate(id, { estado: "aprobado" }, { new: true });
+            const categoria = await categorias.findByIdAndUpdate(id, { estado: "activo" }, { new: true });
             if (!categoria) {
                 return res.status(404).json({ error: "categoria no encontrada" });
             }
@@ -100,7 +108,7 @@ const httpcategorias = {
                 return res.status(400).json({ error: "ID no válido" });
             }
 
-            const categoria = await categorias.findByIdAndUpdate(id, { estado: "anulado" }, { new: true });
+            const categoria = await categorias.findByIdAndUpdate(id, { estado: "inactivo" }, { new: true });
             if (!categorias) {
                 return res.status(404).json({ error: "categoria no encontrada" });
             }
