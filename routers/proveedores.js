@@ -7,7 +7,7 @@ import helperProveedor from "../helpers/proveedores.js";
 const router = Router();
 
 // Crear un nuevo tercero
-router.post("/", [
+router.post("/PS", [
     check("nombre", "El nombre es obligatorio").notEmpty(),
     check("identificacion", "La identificación es obligatoria").notEmpty(),
     check("email", "El email es obligatorio y debe ser válido").isEmail(),
@@ -17,15 +17,9 @@ router.post("/", [
 ], httpProveedores.postProveedores);
 
 // Modificar un tercero
-router.put("/:id", [
+router.put("/modificar/:id", [
     check("id", "El id no es válido").isMongoId(),
     check("id", "El tercero no existe").custom(helperProveedor.validarId),
-    check("nombre", "El nombre es obligatorio").notEmpty(),
-    check("identificacion", "La identificación es obligatoria").notEmpty(),
-    check("email", "El email es obligatorio y debe ser válido").isEmail(),
-    check("direccion", "La direccion es obligatoria").notEmpty(),
-    check("telefono", "El teléfono es obligatorio").notEmpty(),
-    check("estado", "El estado es obligatorio y debe ser 'activo' o 'inactivo'").isIn(['activo', 'inactivo'])
 ], httpProveedores.putProveedores);
 
 // Listar todos los terceros

@@ -28,25 +28,29 @@ const httpProveedores = {
     putProveedores: async (req, res) => {
         try {
             const { id } = req.params;
-
-            //validar que el id sea un objeto valido
             if (!mongoose.Types.ObjectId.isValid(id)) {
-                return res.status(400).json({ error: "ID no es valido" });
+                return res.status(400).json({ error: "ID no es válido" });
             }
-
-            const {
-                nombre, identificacion,direccion, telefono, email, estado
-            } = req.body
-
-            const proveedor = await proveedores.findByIdAndUpdate(req.params, {
-                nombre, identificacion,direccion, telefono, email, estado
-            }, { new: true });
-
+    
+            const { nombre, identificacion, direccion, telefono, email, estado } = req.body;
+    
+            // Actualizar el documento
+            const proveedor = await proveedores.findByIdAndUpdate(id, 
+                { nombre, identificacion, direccion, telefono, email, estado }, 
+                { new: true }
+            );
+    
+            if (!proveedor) {
+                return res.status(404).json({ error: "Proveedor no encontrado" });
+            }
+    
+            res.json({ proveedor });
         } catch (error) {
-            res.status(400).json({ error: "Falla en la operacion" });
-            console.log(error)
+            res.status(400).json({ error: "Falla en la operación" });
+            console.error(error);
         }
     },
+    
 
     //listor todo 
     getProveedores: async (req, res) => {
@@ -91,7 +95,7 @@ const httpProveedores = {
                 return res.status(400).json({ error: "ID no válido" });
             }
 
-            const proveedor = await proveedores.findByIdAndUpdate(id, { state: "aprobado" }, { new: true });
+            const proveedor = await proveedores.findByIdAndUpdate(id, { estado: "aprobado" }, { new: true });
             if (!proveedor) {
                 return res.status(404).json({ error: "terceros no encontrados" });
             }
@@ -111,7 +115,7 @@ const httpProveedores = {
                 return res.status(400).json({ error: "ID no válido" });
             }
 
-            const proveedor = await proveedores.findByIdAndUpdate(id, { state: "anulado" }, { new: true });
+            const proveedor = await proveedores.findByIdAndUpdate(id, { estado: "anulado" }, { new: true });
             if (!proveedor) {
                 return res.status(404).json({ error: "terceros no encontrados" });
             }
@@ -125,12 +129,12 @@ const httpProveedores = {
     //Lista por activos
     getActivos: async (req, res) => {
         try {
-            const proveedor = await proveedores.find({ estado: "aprobado" });
+            const proveedor = await proveedores.find({ estado: "activo" });
             if (!proveedor.length) {
                 return res.status(404).json({ error: "No se encontraron terceros aprobados" });
             }
 
-            req.json({ proveedor });
+            res.json({ proveedor });
 
         } catch (error) {
             res.status(400).json({ error: "Operación no se realizó correctamente" });
@@ -147,7 +151,7 @@ const httpProveedores = {
                 return res.status(404).json({ error: "No se encontraron terceros anulados" });
             }
 
-            req.json({ proveedor });
+            res.json({ proveedor });
 
         } catch (error) {
             res.status(400).json({ error: "Operación no se realizó correctamente" });
