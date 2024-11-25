@@ -76,7 +76,7 @@ const httpArticulos = {
                 return res.status(400).json({ error: "ID no válido" });
             }
 
-            const articulo = await Articulos.findByIdAndUpdate(id, { estado: "aprobado" }, { new: true });
+            const articulo = await Articulos.findByIdAndUpdate(id, { estado: "activo" }, { new: true });
             if (!articulo) {
                 return res.status(404).json({ error: "movimiento no encontrado" });
             }
@@ -95,7 +95,7 @@ const httpArticulos = {
                 return res.status(400).json({ error: "ID no válido" });
             }
 
-            const articulo = await Articulos.findByIdAndUpdate(id, { estado: "anulado" },{ new: true });
+            const articulo = await Articulos.findByIdAndUpdate(id, { estado: "inactivo" },{ new: true });
             if (!articulo) {
                 return res.status(404).json({ error: "articulo no encontrado" });
             }
@@ -109,7 +109,7 @@ const httpArticulos = {
     // listar activos 
     getActivos:async (req, res) => {
         try {
-            const activos = await Articulos.find({ estado: "aprobado" });
+            const activos = await Articulos.find({ estado: "activo" });
             
             if (!activos.length) {
                 return res.status(404).json({ error: "No se encontraron movimientos aprobados" });
@@ -125,7 +125,7 @@ const httpArticulos = {
      // listar inactivos
      getInactivos:async (req, res) => {
         try {
-            const inactivos = await Articulos.find({ estado: "anulado" });
+            const inactivos = await Articulos.find({ estado: "inactivo" });
             
             if (!inactivos.length) {
                 return res.status(404).json({ error: "No se encontraron movimientos aprobados" });
