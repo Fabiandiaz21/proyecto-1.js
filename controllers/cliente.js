@@ -38,38 +38,19 @@ const httpcliente = {
         }
     },
 
-    //listor todo 
     getCliente: async (req, res) => {
-
+        console.log("getCliente invocado");
         try {
             const cliente = await clientes.find();
-            res.json(cliente)
-
-        } catch (error) {
-            res.status(500).json({ error: "Falla en la operacion" })
-            console.log(error)
-        }
-    },
-    //listar por ID
-    gatClienteByid: async (req, res) => {
-        try {
-            const { id } = req.params;
-
-            //validar que el id sea un objeto valido
-            if (!mongoose.Types.ObjectId.isValid(id)) {
-                return res.status(400).json({ error: "ID no es valido" });
-            }
-
-            const cliente = await clientes.findById(id);
-            if (!cliente) {
-                return res.status(404).json({ error: "Terceros no encontrados" })
-            }
             res.json(cliente);
         } catch (error) {
-            res.status(400).json({ error: "Falla en la operación" });
-            console.log(error);
+            console.error("Error en getCliente:", error);
+            res.status(500).json({ error: "Falla en la operacion" });
         }
     },
+    
+  
+    
 
     //Activar
     putActivarCliente: async (req, res) => {
