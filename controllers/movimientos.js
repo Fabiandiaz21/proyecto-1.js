@@ -222,7 +222,7 @@ const httpmovimientos = {
                 return res.status(404).json({ error: "No se encontraron movimientos" });
             }
     
-            res.json({ Movimiento });
+            res.json({ movimientos });
         } catch (error) {
             res.status(400).json({ error: "Operación no se realizó correctamente" });
             console.log(error);

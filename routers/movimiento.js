@@ -59,7 +59,7 @@ router.get("/:id", [
 ], httpmovimiento.getmovimientoById);
 
 // Obtener todos los tipos de movimientos
-router.get("/tipo", httpmovimiento.getTiposMovimientos);
+router.get("/tipos/:tipo", httpmovimiento.getTiposMovimientos);
 
 // Listar movimientos por rango de fechas
 router.get("/fecha/:fechaInicio/:fechaFin", httpmovimiento.getListarMovimientosPorFecha);
