@@ -13,6 +13,7 @@ dotenv.config();
 const app = express()
 app.use(cors())
 app.use(express.json())
+app.use(express.static('public'))
 app.use("/api/movimientos",movimientos)
 app.use("/api/articulos",articulos)
 app.use("/api/categorias",categorias)
